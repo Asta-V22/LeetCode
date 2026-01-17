@@ -9,20 +9,21 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        unordered_map<ListNode*,int> mpp;
 
-        ListNode* temp = head;
+        ListNode* hare = head;
+        ListNode* tortoise = head;
 
-        while(temp){
-            if(mpp.find(temp)==mpp.end()){
-                mpp[temp]=1;
-                temp = temp->next;
-            }
-            else{
-                return true;
-            }
+        //here we will take the advantage of the fact if there is a loop then it must hare and tortoise must meet somewhere
+
+        while(hare != nullptr && hare->next != nullptr){
+            hare = hare->next->next;
+            tortoise = tortoise->next;
+
+            if(hare == tortoise) return true;
         }
+    
+    return false;
 
-        return false;
+
     }
 };
