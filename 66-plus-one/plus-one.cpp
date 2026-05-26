@@ -1,21 +1,23 @@
 class Solution {
 public:
     vector<int> plusOne(vector<int>& digits) {
-        int size = digits.size();
-
-        if(size == 0){
-            return {1};
+        int l = digits.size()-1;
+        if(digits[l]!=9 ){
+            digits[l]++;
+            return digits;
         }
-        for(int i = size-1; i>=0; i--){
-            if(digits[i]<9){
-                digits[i]++;
-                return digits;
+        else{
+            for(int i = l; i>=0; i--){
+                if(digits[i] == 9){
+                    digits[i] =0;
+                }
+                else{
+                    digits[i]++;
+                    return digits;
+                }
             }
-            digits[i] = 0;
         }
-
         digits.insert(digits.begin(),1);
         return digits;
-        
     }
 };
