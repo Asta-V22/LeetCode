@@ -8,8 +8,10 @@ public:
             return *it;
         }
         else{
-            auto it = prev(s.end(),1);
-            return *it;
+            // auto it = prev(s.end(),1);    //you can also do this
+            // return *it;
+
+            return *prev(s.end());
         }
 
        
