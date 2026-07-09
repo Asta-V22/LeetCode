@@ -20,7 +20,6 @@ public:
         //if both are not null then p and q lies in both the parts
         if(left != NULL && right != NULL) return root;
 
-        if(left == NULL) return right;
-        return left;
+        return left?left:right;
     }
 };
