@@ -5,14 +5,14 @@ public:
         if(board.empty()) return;
         int cols = board[0].size();
 
-        vector<vector<char>> vis(rows, vector<char>(cols,'X'));
+        // vector<vector<char>> vis(rows, vector<char>(cols,'X'));
 
         queue<pair<int,int>> q;
 
         for(int i=0; i<rows; i++){
             for(int j=0; j<cols; j++){
                 if((i==0 || j==0|| i==rows-1 || j==cols-1) && board[i][j]=='O'){
-                    vis[i][j] = 'O';
+                    board[i][j] = '#';
                     q.push({i,j});
                 }
             }
@@ -32,8 +32,8 @@ public:
                 int newRow = row + dr[i];
                 int newCol = col + dc[i];
 
-                if(newRow>=0 && newRow<rows && newCol>=0 && newCol<cols && board[newRow][newCol]=='O' && vis[newRow][newCol]=='X'){
-                    vis[newRow][newCol] = 'O';
+                if(newRow>=0 && newRow<rows && newCol>=0 && newCol<cols && board[newRow][newCol]=='O'){
+                    board[newRow][newCol] = '#';
                     q.push({newRow,newCol});
                 }
             }
@@ -42,7 +42,12 @@ public:
         //vis contains our desired 
         for(int i=0 ;i<rows; i++){
             for(int j=0; j<cols; j++){
-                board[i][j] = vis[i][j];
+                if(board[i][j]=='#'){
+                    board[i][j] = 'O';
+                }
+                else{
+                    board[i][j] = 'X';
+                }
             }
         }
 
