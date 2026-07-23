@@ -10,20 +10,19 @@ class Solution {
 public:
     bool hasCycle(ListNode *head) {
 
-        ListNode* hare = head;
-        ListNode* tortoise = head;
+        if(head==nullptr || head->next==nullptr) return false;
+        ListNode* slow = head;
+        ListNode* fast = head;
 
-        //here we will take the advantage of the fact if there is a loop then it must hare and tortoise must meet somewhere
+        while(fast->next!=nullptr && fast->next->next !=nullptr){
+            slow = slow->next;
+            fast = fast->next->next;
 
-        while(hare != nullptr && hare->next != nullptr){
-            hare = hare->next->next;
-            tortoise = tortoise->next;
-
-            if(hare == tortoise) return true;
+            if(fast==slow){
+                return true;
+            }
         }
-    
-    return false;
 
-
+        return false;
     }
 };
