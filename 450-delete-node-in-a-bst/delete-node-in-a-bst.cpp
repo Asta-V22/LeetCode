@@ -21,16 +21,22 @@ private:
         //we have three cases
         //1. The node at which our key was only has right side
         if(root->left==NULL){   //now lets assume if we had root->right==NULL also then it will reurn root->right(which will be null) so that also works out
-            return root->right;
+            TreeNode* temp = root->right;
+            delete root;
+            return temp;
         }
         else if(root->right==NULL){
-            return root->left;
+            TreeNode* temp = root->left;
+            delete root;
+            return temp;
         }
         TreeNode* rightSide = root->right;
         TreeNode* rightmost = righty(root->left);
         rightmost->right = rightSide;
+        TreeNode* temp = root->left;
+        delete root;
 
-        return root->left;
+        return temp;
     }
 public:
     TreeNode* deleteNode(TreeNode* root, int key) {
