@@ -1,38 +1,30 @@
 class Solution {
+    int n;
 private:
-    void dfs(int node, vector<int> adj[], vector<int> &vis){
-        vis[node] = 1;
-        for(auto it: adj[node]){
-            if(!vis[it]){
-                dfs(it,adj,vis);
+    void dfs(vector<vector<int>>& isConnected, vector<int> &vis, int u){
+        vis[u]=1;     //mark u as visited
+
+        //now check for other edges connected with u but not visited yet
+        for(int v = 0; v<n; v++){
+            if(!vis[v] && isConnected[u][v]==1){
+                dfs(isConnected, vis, v);
             }
         }
     }
 public:
     int findCircleNum(vector<vector<int>>& isConnected) {
-        //we are given an adjacency matrix so let us convert it into an adjacency list first for our convenience
-        int V = isConnected.size();
-        vector<int> adj[V];
-        for(int i=0; i<V; i++){
-            for(int j=0; j<V; j++){
-                if(isConnected[i][j] == 1 && i!=j){
-                    adj[i].push_back(j);
-                    adj[j].push_back(i);
-                }
-            }
-        }
+        //we can do this by making our own adjacency list as well as using the given one
+        n = isConnected.size();
+        vector<int> vis(n);
 
-        vector<int> vis(V,0);
-        int count =0;
-
-        for(int i=0; i<V; i++){
+        int prov  = 0;
+        for(int i=0; i<n; i++){
             if(!vis[i]){
-                count++;
-                dfs(i,adj, vis);
+                dfs(isConnected,vis,i);
+                prov++;
             }
         }
 
-        return count;
-
+        return prov;
     }
 };
