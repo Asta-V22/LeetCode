@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //this is Dijkstra approach, here result matrix is useless as we return as we hit n-1,n-1 so no need to store anything and save your O(N2) HAPPY!!!!
     typedef tuple<int, int,int> P;
     vector<vector<int>> directions{{1,0},{0,1},{1,1},{-1,0},{0,-1},{-1,-1}, {-1,1},{1,-1}};
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
@@ -7,11 +8,11 @@ public:
         if (grid[0][0] == 1 || grid[n - 1][n - 1] == 1) {
             return -1;
         }
-        vector<vector<int>> result(n, vector<int>(n, INT_MAX));
+        // vector<vector<int>> result(n, vector<int>(n, INT_MAX));
 
         priority_queue<P, vector<P>, greater<P>> pq;
 
-        result[0][0]=0;  //the starting point
+        // result[0][0]=0;  //the starting point
         pq.push({0,0,0});
         //mark the starting point as visited
         grid[0][0] = 1;
@@ -29,7 +30,7 @@ public:
                 if(x>=0 && x<n && y>=0 && y<n && grid[x][y]==0){
                     pq.push({d+1,x,y});
                     grid[x][y]=1;
-                    result[x][y] = d+1;
+                    // result[x][y] = d+1;
                 }
             }
 
