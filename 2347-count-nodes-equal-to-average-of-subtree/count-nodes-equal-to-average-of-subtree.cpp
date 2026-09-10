@@ -11,13 +11,13 @@
  */
 class Solution {
 public:
-    pair<int,int> func(TreeNode* node, int count, int sum, int &total){
+    pair<int,int> func(TreeNode* node, int &total){
         if(node==nullptr){
             return {0,0};
         }
 
-        auto [sum_left, count_left] = func(node->left, count, sum, total);
-        auto [sum_right, count_right] = func(node->right, count, sum, total);
+        auto [sum_left, count_left] = func(node->left, total);
+        auto [sum_right, count_right] = func(node->right, total);
         int nodesum = sum_left + sum_right + node->val;
         int nodecount = count_left + count_right + 1;
         if(nodesum/nodecount==node->val) total++;
@@ -25,10 +25,9 @@ public:
 
     }
     int averageOfSubtree(TreeNode* root) {
-        int count = 0;
-        int sum = 0;
+
         int total= 0;
-        func(root, count, sum, total);
+        func(root,total);
         return total;
     }
 };
