@@ -1,61 +1,76 @@
+/*----------KRUSKALS--------------------------------*/
 class Solution {
+    vector<int> parent;
+    vector<int> rank;
+
+    int find(int u){
+        if(parent[u]==u){
+            return u;
+        }
+        return parent[u] = find(parent[u]);
+    }
+
+    bool Union(int u, int v){
+        int parent_u = find(u);
+        int parent_v = find(v);
+
+        if(parent_u == parent_v){
+            return false;
+        }
+        else if(rank[parent_u]>rank[parent_v]){
+            parent[parent_v] = parent_u;
+        }
+        else if(rank[parent_v]>rank[parent_u]){
+            parent[parent_u] = parent_v;
+        }
+        else{
+            parent[parent_u] = parent_v;
+            rank[parent_v]++;
+        }
+        return true;
+    }
+
+int kruskal(vector<vector<int>> &adj){
+    int sum =0;
+    for(auto &vec: adj){
+        int u = vec[0];
+        int v = vec[1];
+        int wt = vec[2];
+
+        if(Union(u,v)){
+            sum+=wt;
+        }
+    }
+        return sum;
+}
 public:
-    typedef pair<int, pair<int,int>> p;
     int minCostConnectPoints(vector<vector<int>>& points) {
-        int n = points.size();
-        //let's create an adj that will show the connection with all the edges
-        vector<vector<pair<int,int>>> adj(n);  //{v,wt}
+        int V = points.size();
+        parent.resize(V);
+        rank.resize(V,0);
+
+        for(int i=0; i<V; i++){
+            parent[i] = i;
+        }
         
-        for(int i=0; i<n; i++){
-            for(int j=0; j<n; j++){
-                if(i==j) continue;
-                auto x = points[i];
-                auto y = points[j];
+        vector<vector<int>> adj;
+        for(int i=0; i<V; i++){
+            for(int j=i+1; j<V; j++){
+                auto point1 = points[i];
+                auto point2 = points[j];
 
-                int xi = x[0];
-                int yi = x[1];
-                int xj = y[0];
-                int yj = y[1];
+                int wt = abs(point1[0]-point2[0]) + abs(point1[1]-point2[1]);
 
-                int wt = abs(xi-xj)+abs(yi-yj);
-
-                adj[i].push_back({j,wt});
+                adj.push_back({i,j,wt});
             }
-            
         }
 
-        //now we have successfully transformed our adj and can apply prims normally
+        auto comparator = [](const vector<int> &vec1,const vector<int> &vec2){
+            return vec1[2]<vec2[2];
+        };
 
-        priority_queue<p, vector<p>, greater<p>> pq;    //--->{wt,{v,u}}
-        vector<int> vis(n);
+        sort(adj.begin(), adj.end(), comparator);
 
-        pq.push({0,{0,-1}});
-        int total = 0;
-
-        while(!pq.empty()){
-            auto x = pq.top();
-            pq.pop();
-
-            int wt = x.first;
-            int v = x.second.first;
-            int u = x.second.second;
-
-            if(vis[v]) continue;
-
-            vis[v] = 1;
-            total+=wt;
-
-            //add the connecting edges in the pq
-            for(auto &x: adj[v]){
-                int dest = x.first;
-                int dist = x.second;
-
-                pq.push({dist,{dest,v}});
-            }
-
-        }
-        return total;
-
-
+        return kruskal(adj);
     }
 };
