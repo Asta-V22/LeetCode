@@ -1,16 +1,21 @@
+/*-----------------DP WITH MEMOIZANTION------------------------*/
+
+
 class Solution {
 public:
-    int cstairs(int n, vector<int> &dp){
-        if(n==0) return 1;
-        if(n==1) return 1;
-
-        
-        if(dp[n] != -1) return dp[n];
-
-        return dp[n] = cstairs(n-1, dp) + cstairs(n-2, dp);
+    int solve(int i, int n, int &ways, vector<int> &dp){
+        //i is how many steps we have already covered
+        if(i==n){
+            ways++;
+            return 1;
+        }
+        if(i>n) return 0;
+        if(dp[i]!=-1) return dp[i];
+        return dp[i] = solve(i+1, n, ways,dp) + solve(i+2,n,ways,dp);
     }
     int climbStairs(int n) {
-        vector<int> dp(n+1, -1);
-        return cstairs(n,dp);
+        vector<int> dp(n,-1);
+        int ways = 0;
+        return solve(0,n,ways,dp);
     }
 };
