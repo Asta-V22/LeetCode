@@ -1,20 +1,18 @@
-/*---------BOTTOM UP----------------*/
-
+/*-----without any space------*/
 class Solution {
 public:
     int climbStairs(int n) {
         if(n<=2) return n;
-        vector<int> vec(n+1);
+        int a = 1;
+        int b = 2;
 
-        //number of ways to climb the 0th and 1st stairs
-        vec[0] = 0;
-        vec[1] = 1;
-        vec[2] = 2;
+        int c = 0;
 
-        for(int i=3; i<=n; i++){
-            vec[i] = vec[i-1]+vec[i-2];
+        for(int i=2; i<n; i++){
+            c=a+b;
+            a=b;
+            b=c;
         }
-
-        return vec[n];
+        return c;
     }
 };
