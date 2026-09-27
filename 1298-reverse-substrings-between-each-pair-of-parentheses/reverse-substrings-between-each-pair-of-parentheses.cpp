@@ -1,39 +1,44 @@
+//Wormhole Teleportation technique
 class Solution {
 public:
-    void revstring(string &input){
-        int l=0;
-        int r = input.size()-1;
-        while(l<r){
-            char temp = input[l];
-            input[l] = input[r];
-            input[r] = temp;
-            l++;
-            r--;
-        }
-    }
     string reverseParentheses(string s) {
+        int n = s.size();
+
         stack<int> st;
+        vector<int> v(n,-1);
+        string res = "";
 
-        int l =0;
-
-        while(l<s.size()){
-            if(s[l]=='('){
-                st.push(l);
+        for(int i=0; i<n; i++){
+            if(s[i]=='('){
+                st.push(i);
             }
-            if(s[l]==')'){
-                int t =st.top();
+            if(s[i]==')'){
+                int idx = st.top();
                 st.pop();
-                int i = t+1;
-                int j = l-1;
 
-                string rev = s.substr(i,j-i+1);
-                revstring(rev);
-                s.replace(t,l-t+1, rev);
-                l--;
-                continue;
+                v[i] = idx;
+                v[idx] = i;
             }
-            l++;
         }
-        return s;
+
+
+
+        bool l2r = true;
+        int l = 0;
+        while(l>=0 && l<s.size()){
+            if(s[l]=='(' || s[l]==')' ){
+                l=v[l];
+                l2r = l2r?false:true;
+            }
+            else {
+                res += s[l];
+            }
+
+            if (l2r)
+                l++;
+            else
+                l--;
+        }
+        return res;
     }
 };
