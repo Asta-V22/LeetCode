@@ -1,38 +1,28 @@
 class Solution {
 public:
     vector<string> res;
-    bool isvalid(string s){
-        int valid = 0;
-        for(int i=0;i<s.size(); i++){
-            if(s[i]=='('){
-                valid++;
-            }
-            else if (s[i]==')'){
-                valid--;
-            }
-            if(valid<0) return false;
-        }
-        if(valid==0) return true;
-        return false;
-    }
-    void solve(string cur, int n){
+    void solve(string cur, int open, int close,int n){
         if(cur.size()==2*n){
-            if(isvalid(cur)){
-                res.push_back(cur);
-            }
+            res.push_back(cur);
             return;
         }
-        cur.push_back('(');
-        solve(cur,n);
-        cur.pop_back();
+        if(open<n){
+            cur.push_back('(');
+            solve(cur,open+1, close, n);
+            cur.pop_back();
+        }
 
-        cur.push_back(')');
-        solve(cur,n);
-        cur.pop_back();
+        if(close<open){
+            cur.push_back(')');
+            solve(cur,open,close+1,n);
+            cur.pop_back();
+        }
     }
     vector<string> generateParenthesis(int n) {
         string temp = "";
-        solve(temp,n);
+        int open = 0;
+        int close= 0;
+        solve(temp,open,close,n);
         return res;
 
     }
