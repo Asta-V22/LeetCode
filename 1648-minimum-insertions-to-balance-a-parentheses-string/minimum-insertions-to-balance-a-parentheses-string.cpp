@@ -3,40 +3,40 @@ public:
     int minInsertions(string s) {
         int n = s.size();
         int ans = 0;
-        stack<int> st;
+        int st = 0;
         int i = 0;
         while(i<n){
             if(s[i]=='('){
-                st.push(i);
+                st++;
             }
             else if(s[i]==')'){
                 if(i+1<n){
                     if(s[i+1]==')'){
-                        if(st.empty()){
+                        if(st==0){
                             ans++;
                         }
                         else{
-                            st.pop();
+                            st--;
                         }
                         i+=2;
                         continue;
                     }
                     else{
-                        if(st.empty()){
+                        if(st==0){
                             ans+=2;
                         }
                         else{
-                            st.pop();
+                            st--;
                             ans++;
                         }
                     }
                 }
                 else{
-                    if(st.empty()){
+                    if(st==0){
                         ans+=2;
                     }
                     else{
-                        st.pop();
+                        st--;
                         ans++;
                     }
                 }
@@ -44,10 +44,8 @@ public:
             }
             i++;
             
-
-            
         }   
 
-        return 2*st.size()+ans;
+        return 2*st+ans;
     }
 };
