@@ -15,10 +15,10 @@ public:
         long long res = 0;
         for(int i=0; i<n; i++){
             if(i<m){
-                res+= nums[i]*nums[i];
+                res+= 1LL*nums[i]*nums[i];
             }
             else{
-                res-=nums[i]*nums[i];
+                res-=1LL*nums[i]*nums[i];
             }
         }
 
