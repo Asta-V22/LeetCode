@@ -7,10 +7,9 @@ public:
             for(int j=0; j<arr2.size(); j++){
                 if(abs(arr1[i]-arr2[j]) <= d){
                     res--;
-                    goto end;
+                    j = arr2.size();
                 }
             }
-            end:
         }
 
         return res;
